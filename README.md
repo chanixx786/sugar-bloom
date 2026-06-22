@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sugar Bloom (Kaachan) 🌸
+
+A mobile and web app tailored for catering and custom cake services. It helps customers easily browse designs, place orders, and personalize cakes for any occasion. The platform connects clients with beautifully crafted cakes made to make every celebration special.
 
 ## Getting Started
 
