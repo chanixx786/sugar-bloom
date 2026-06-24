@@ -1,8 +1,5 @@
 import { Sun } from "lucide-react";
 import Image from "next/image";
-import cupcake from "@/assets/cupcake.png";
-import sbImage from "@/assets/sbImage.png";
-import sbText from "@/assets/sbText.png";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function AuthLayout({
@@ -17,7 +14,6 @@ export default function AuthLayout({
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#fecdd3] rounded-full blur-[120px] opacity-40 translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-6xl flex flex-col md:flex-row items-center justify-around gap-8 md:gap-12 lg:gap-16">
-
         {/* Left Column: Hero Text & Graphic */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-md w-full">
           {/* Badge */}
@@ -35,16 +31,19 @@ export default function AuthLayout({
 
           {/* Description */}
           <p className="mt-3 text-[#6e5d5d] text-sm md:text-base leading-relaxed font-sans max-w-sm">
-            Cakes layered with rose-cream. Ice cream churned with petals. Bouquets tied by hand. A
-            boutique for the moments worth celebrating.
+            Cakes layered with rose-cream. Ice cream churned with petals.
+            Bouquets tied by hand. A boutique for the moments worth celebrating.
           </p>
 
           {/* Cupcake Splash graphic */}
           <div className="mt-6 relative w-full max-w-[280px] lg:max-w-[320px] aspect-square flex justify-center items-center">
             <Image
-              src={cupcake}
+              src="/assets/cupcake.svg"
               alt="Cupcake Splash"
               className="w-full h-full object-contain drop-shadow-[0_10px_25px_rgba(212,72,118,0.12)] select-none"
+              width={320}
+              height={320}
+              priority
             />
           </div>
         </div>
@@ -55,16 +54,21 @@ export default function AuthLayout({
             <CardContent className="flex flex-col gap-5 p-6 md:p-8 max-h-[80vh] overflow-y-auto auth-card-scroll">
               {/* Logo / Branding */}
               <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
-                <Image src={sbImage} alt="Sugar Bloom Logo" className="w-20 md:w-24 h-auto select-none" />
-                <Image src={sbText} alt="Sugar Bloom" className="w-36 md:w-40 h-auto select-none" />
+                <Image
+                  src="/assets/sbImage.png"
+                  alt="Sugar Bloom Logo"
+                  width={160}
+                  height={80}
+                  className="w-20 md:w-24 h-auto select-none"
+                  priority
+                />
+                <span className="font-dancing text-2xl font-semibold">Sugar Bloom</span>
               </div>
 
               {children}
-
             </CardContent>
           </Card>
         </div>
-
       </div>
     </div>
   );
