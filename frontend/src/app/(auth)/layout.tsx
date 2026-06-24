@@ -17,7 +17,7 @@ export default function AuthLayout({
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#fecdd3] rounded-full blur-[120px] opacity-40 translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-6xl flex flex-col md:flex-row items-center justify-around gap-8 md:gap-12 lg:gap-16">
-        
+
         {/* Left Column: Hero Text & Graphic */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-md w-full">
           {/* Badge */}
@@ -49,13 +49,12 @@ export default function AuthLayout({
           </div>
         </div>
 
-        {/* Right Column: Form Card */}
+        {/* Right Column: Form Card - SCROLLABLE WITH HIDDEN SCROLLBAR */}
         <div className="w-full max-w-md flex justify-center">
           <Card className="w-full border-none shadow-[0_20px_50px_rgba(212,72,118,0.06)] rounded-[32px] bg-white overflow-hidden">
-            <CardContent className="flex flex-col gap-5 p-6 md:p-8">
-              
+            <CardContent className="flex flex-col gap-5 p-6 md:p-8 max-h-[80vh] overflow-y-auto auth-card-scroll">
               {/* Logo / Branding */}
-              <div className="flex flex-col items-center gap-1.5">
+              <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
                 <Image src={sbImage} alt="Sugar Bloom Logo" className="w-20 md:w-24 h-auto select-none" />
                 <Image src={sbText} alt="Sugar Bloom" className="w-36 md:w-40 h-auto select-none" />
               </div>

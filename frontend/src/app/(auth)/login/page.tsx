@@ -1,37 +1,56 @@
+"use client";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FormField } from "@/components/ui/form-field";
+import { loginSchema, LoginInput } from "@/schemas/auth_schema";
 
 export default function LoginPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: LoginInput) => {
+    console.log("Login data:", data);
+  };
+
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md mx-auto">
       {/* Subtitle */}
-      <div className="text-center">
-        <p className="text-xs md:text-sm text-gray-500 font-sans">
+      <div className="text-center mb-6">
+        <p className="text-xs md:text-sm text-gray-500">
           Sign in to manage inventory & orders
         </p>
       </div>
 
-      {/* Form Input fields */}
-      <div className="flex flex-col gap-3.5 w-full">
-        {/* Email Field */}
-        <div className="space-y-1">
-          <Label htmlFor="email" className="text-xs font-semibold text-gray-600 block pl-1">
-            Email
-          </Label>
-          <Input id="email" type="email" placeholder="ex. juan@gmail.com" />
-        </div>
+      {/* Form Fields */}
+      <div className="flex flex-col gap-4">
+        <FormField
+          id="email"
+          label="Email"
+          type="email"
+          placeholder="ex. juan@gmail.com"
+          error={errors.email}
+          {...register("email")}
+        />
 
-        {/* Password Field */}
-        <div className="space-y-1">
-          <Label
-            htmlFor="password"
-            className="text-xs font-semibold text-gray-600 block pl-1"
-          >
-            Password
-          </Label>
-          <Input id="password" type="password" placeholder="ex. juan@gmail.com" />
-        </div>
+        <FormField
+          id="password"
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          error={errors.password}
+          {...register("password")}
+        />
 
         {/* Forgot Password */}
         <div className="flex justify-end pr-1">
@@ -45,11 +64,16 @@ export default function LoginPage() {
 
         {/* Submit & Register */}
         <div className="flex flex-col gap-3.5 mt-1">
-          <Button className="w-full" size="lg">
-            Login
+          <Button 
+            className="w-full" 
+            size="lg"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Logging in..." : "Login"}
           </Button>
 
-          <div className="flex justify-center text-xs md:text-sm font-sans">
+          <div className="flex justify-center text-xs md:text-sm">
             <span className="text-gray-500">
               Don't have an account?{" "}
               <a href="/register" className="text-[#c2406a] font-semibold hover:underline">
@@ -59,6 +83,6 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-    </>
+    </form>
   );
 }
