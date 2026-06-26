@@ -13,6 +13,7 @@ import {
   Wallet,
   PiggyBank,
   Settings,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -143,13 +144,22 @@ function SidebarInner({ onNavClick }: { onNavClick?: () => void }) {
 
       {/* ── Footer: Settings + User ── */}
       <SidebarFooter className="px-3 pb-4 pt-2 border-t border-border">
-        <SidebarMenu className="gap-2">
+        <SidebarMenu className="gap-3">
           {/* Settings */}
           <NavItem
             href="/settings"
             icon={Settings}
             label="Settings"
             active={isActive("/settings")}
+            onClick={onNavClick}
+          />
+
+          {/* Logout */}
+          <NavItem
+            href="/login"
+            icon={LogOut}
+            label="Logout"
+            active={false}
             onClick={onNavClick}
           />
 
@@ -223,7 +233,7 @@ export function AppSidebar() {
             <Image
               src={sbText}
               alt="Sugar Bloom"
-              className="h-8 w-auto object-contain select-none"
+              className="h-7 w-auto object-contain select-none"
             />
           )}
         </div>

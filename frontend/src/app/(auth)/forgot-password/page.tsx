@@ -52,8 +52,7 @@ export default function ForgotPasswordPage() {
                         className="w-full"
                         size="lg"
                         type="submit"
-                        disabled={isSubmitting}
-                        
+                        disabled={isSubmitting}             
                     >
                         {isSubmitting ? "Sending..." : "Send Reset Link"}
                     </Button>

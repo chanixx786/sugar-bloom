@@ -5,8 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form-field";
 import { loginSchema, LoginInput } from "@/schemas/auth_schema";
-
+import { useRouter } from "next/navigation";
 export default function LoginPage() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -21,6 +22,8 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginInput) => {
     console.log("Login data:", data);
+    router.push("/dashboard");
+
   };
 
   return (
