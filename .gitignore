@@ -3,62 +3,41 @@
 # =========================
 
 # dependencies
-frontend/node_modules/
-frontend/.pnp
-frontend/.pnp.*
-frontend/.yarn/*
-!frontend/.yarn/patches
-!frontend/.yarn/plugins
-!frontend/.yarn/releases
-!frontend/.yarn/versions
+web/node_modules/
+web/.pnp
+web/.pnp.*
+web/.yarn/*
+!web/.yarn/patches
+!web/.yarn/plugins
+!web/.yarn/releases
+!web/.yarn/versions
 
 # testing
-frontend/coverage/
+web/coverage/
 
 # next.js
-frontend/.next/
-frontend/out/
+web/.next/
+web/out/
 
 # production
-frontend/build/
+web/build/
 
 # misc
-frontend/.DS_Store
-frontend/*.pem
+web/.DS_Store
+web/*.pem
 
 # debug
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
-frontend/.pnpm-debug.log*
+web/npm-debug.log*
+web/yarn-debug.log*
+web/yarn-error.log*
+web/.pnpm-debug.log*
 
 # env files
-frontend/.env*
+web/.env*
 
 # vercel
-frontend/.vercel/
+web/.vercel/
 
 # typescript
-frontend/*.tsbuildinfo
-frontend/next-env.d.ts
-
-
-# =========================
-# BACKEND
-# =========================
-
-# env files
-backend/.env*
-
-# dependencies 
-backend/node_modules/
-
-# build output
-backend/dist/
-backend/build/
-
-# logs (optional but recommended)
-backend/npm-debug.log*
-backend/yarn-debug.log*
-backend/yarn-error.log*
-backend/.pnpm-debug.log*
+web/*.tsbuildinfo
+web/next-env.d.ts
