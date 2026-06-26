@@ -1,0 +1,251 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==================== ACCOUNTS ====================
+model Account {
+  acc_id     Int       @id @default(autoincrement())
+  acc_email  String    @unique
+  acc_phone  String
+  acc_fname  String
+  acc_lname  String
+  acc_type   AccType   @default(customer)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+
+  customers   Customer[]
+  categories  Category[]
+  productLists ProductList[]
+  products    Product[]
+  inventories Inventory[]
+  orders      Order[]
+}
+
+enum AccType {
+  staff
+  customer
+  admin
+}
+
+// ==================== ADDRESS ====================
+model Address {
+  addr_id   Int     @id @default(autoincrement())
+  street    String
+  barangay  String
+  city      String
+  province  String
+  landmarks String?
+
+  customers Customer[]
+}
+
+// ==================== CUSTOMER ====================
+model Customer {
+  cus_id    Int    @id @default(autoincrement())
+  cus_name  String
+  cus_phone String
+
+  acc_id Int
+  acc    Account @relation(fields: [acc_id], references: [acc_id])
+
+  addr_id Int
+  addr    Address @relation(fields: [addr_id], references: [addr_id])
+
+  orders Order[]
+}
+
+// ==================== CATEGORY ====================
+model Category {
+  cat_id     Int       @id @default(autoincrement())
+  cat_name   String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+
+  acc_id Int
+  acc    Account @relation(fields: [acc_id], references: [acc_id])
+
+  productLists ProductList[]
+  inventories  Inventory[]
+}
+
+// ==================== PRODUCT LIST ====================
+model ProductList {
+  prodlist_id     Int             @id @default(autoincrement())
+  prodlist_name   String
+  prodlist_status ProdListStatus  @default(Active)
+  created_at      DateTime        @default(now())
+  updated_at      DateTime        @updatedAt
+
+  cat_id Int
+  cat    Category @relation(fields: [cat_id], references: [cat_id])
+
+  acc_id Int
+  acc    Account @relation(fields: [acc_id], references: [acc_id])
+
+  products Product[]
+}
+
+enum ProdListStatus {
+  Active
+  Inactive
+}
+
+// ==================== PROMOTION ====================
+model Promotion {
+  promo_id         Int           @id @default(autoincrement())
+  promo_code       String        @unique
+  promo_type       PromoType
+  promo_value      Decimal       @db.Decimal(10, 2)
+  promo_start_date DateTime      @db.Date
+  promo_end_date   DateTime      @db.Date
+  promo_status     PromoStatus   @default(schedule)
+
+  products Product[]
+}
+
+enum PromoType {
+  percent
+  fixed
+  bundle
+}
+
+enum PromoStatus {
+  active
+  schedule
+  expired
+}
+
+// ==================== PRODUCT ====================
+model Product {
+  prod_id     Int         @id @default(autoincrement())
+  prod_price  Decimal     @db.Decimal(10, 2)
+  prod_stock  Int
+  prod_status ProdStatus  @default(Available)
+  updated_at  DateTime    @updatedAt
+
+  prodlist_id Int
+  prodlist    ProductList @relation(fields: [prodlist_id], references: [prodlist_id])
+
+  acc_id Int
+  acc    Account @relation(fields: [acc_id], references: [acc_id])
+
+  promo_id Int?
+  promo    Promotion? @relation(fields: [promo_id], references: [promo_id])
+
+  orderItems OrderItem[]
+}
+
+enum ProdStatus {
+  Available
+  Sold
+  Discarded
+  Reserved
+}
+
+// ==================== INVENTORY ====================
+model Inventory {
+  inv_id        Int           @id @default(autoincrement())
+  inv_name      String
+  inv_threshold Int
+  inv_qty       Int
+  inv_status    InvStatus     @default(in_stock)
+  expiry_date   DateTime?     @db.Date
+  updated_at    DateTime      @updatedAt
+  created_at    DateTime      @default(now())
+
+  cat_id Int
+  cat    Category @relation(fields: [cat_id], references: [cat_id])
+
+  acc_id Int
+  acc    Account @relation(fields: [acc_id], references: [acc_id])
+
+  expenses Expense[]
+}
+
+enum InvStatus {
+  low_stock    @map("low stock")
+  out_of_stock @map("out of stock")
+  in_stock     @map("in stock")
+}
+
+// ==================== ORDER ====================
+model Order {
+  order_id              Int             @id @default(autoincrement())
+  order_type            OrderType
+  order_payment_status  String
+  order_payment_mode    PaymentMode
+  order_total           Decimal         @db.Decimal(10, 2)
+  order_amount          Decimal         @db.Decimal(10, 2)
+  order_status          OrderStatus     @default(Pending)
+  created_at            DateTime        @default(now())
+
+  cus_id Int
+  cus    Customer @relation(fields: [cus_id], references: [cus_id])
+
+  acc_id Int
+  acc    Account @relation(fields: [acc_id], references: [acc_id])
+
+  orderItems OrderItem[]
+  deliveries Delivery[]
+}
+
+enum OrderType {
+  Walkin
+  Online
+}
+
+enum PaymentMode {
+  E_wallet @map("E-wallet")
+  Cash
+}
+
+enum OrderStatus {
+  Completed
+  Pending
+  Out_on_Delivery @map("Out on Delivery")
+  Cancelled
+}
+
+// ==================== ORDER ITEM ====================
+model OrderItem {
+  orditem_id    Int      @id @default(autoincrement())
+  orditem_qty   Int
+  orditem_total Decimal  @db.Decimal(10, 2)
+  created_at    DateTime @default(now())
+
+  prod_id Int
+  prod    Product @relation(fields: [prod_id], references: [prod_id])
+
+  order_id Int
+  order    Order @relation(fields: [order_id], references: [order_id])
+}
+
+// ==================== EXPENSES ====================
+model Expense {
+  exp_id              Int      @id @default(autoincrement())
+  exp_amount          Decimal  @db.Decimal(10, 2)
+  exp_date_purchased  DateTime @db.Date
+  exp_vendor          String
+
+  inv_id Int
+  inv    Inventory @relation(fields: [inv_id], references: [inv_id])
+}
+
+// ==================== DELIVERY ====================
+model Delivery {
+  deliv_id   Int     @id @default(autoincrement())
+  deliv_cost Decimal @db.Decimal(10, 2)
+
+  order_id Int
+  order    Order @relation(fields: [order_id], references: [order_id])
+}
