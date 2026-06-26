@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form-field";
+import { PasswordStrength } from "@/components/ui/password-strength";
 import { resetPasswordSchema, ResetPasswordInput } from "@/schemas/auth_schema";
 import { CheckCircle, AlertCircle } from "lucide-react";
 
@@ -14,7 +15,6 @@ export default function ResetPasswordPage() {
   const token = searchParams.get("token");
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [passwordStrength, setPasswordStrength] = useState(0);
 
   const {
     register,
@@ -31,48 +31,6 @@ export default function ResetPasswordPage() {
   });
 
   const password = watch("password");
-
-  // Calculate password strength
-  const calculateStrength = (pass: string) => {
-    let strength = 0;
-    if (pass.length >= 8) strength++;
-    if (/[a-z]/.test(pass) && /[A-Z]/.test(pass)) strength++;
-    if (/\d/.test(pass)) strength++;
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(pass)) strength++;
-    return strength;
-  };
-
-  const getStrengthColor = (score: number) => {
-    switch (score) {
-      case 0:
-      case 1:
-        return "bg-red-500";
-      case 2:
-        return "bg-yellow-500";
-      case 3:
-        return "bg-blue-500";
-      case 4:
-        return "bg-green-500";
-      default:
-        return "bg-gray-300";
-    }
-  };
-
-  const getStrengthText = (score: number) => {
-    switch (score) {
-      case 0:
-      case 1:
-        return "Weak";
-      case 2:
-        return "Fair";
-      case 3:
-        return "Good";
-      case 4:
-        return "Strong";
-      default:
-        return "";
-    }
-  };
 
   const onSubmit = async (data: ResetPasswordInput) => {
     if (!token) {
@@ -160,7 +118,7 @@ export default function ResetPasswordPage() {
       </div>
 
       <div className="flex flex-col gap-4">
-        {/* Password Field with Toggle */}
+        {/* Password Field */}
         <div className="space-y-1 mt-8">
           <FormField
             id="password"
@@ -170,37 +128,11 @@ export default function ResetPasswordPage() {
             error={errors.password}
             required
             {...register("password")}
-            onChange={(e) => {
-              const value = e.target.value;
-              setPasswordStrength(calculateStrength(value));
-            }}
           />
-
-          {/* Password Strength Bar */}
-          {password && password.length > 0 && (
-            <div className="mt-2">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-xs text-gray-500">Password strength:</span>
-                <span className={`text-xs font-semibold ${
-                  passwordStrength < 2 ? "text-red-500" :
-                  passwordStrength === 2 ? "text-yellow-500" :
-                  passwordStrength === 3 ? "text-blue-500" :
-                  "text-green-500"
-                }`}>
-                  {getStrengthText(passwordStrength)}
-                </span>
-              </div>
-              <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className={`h-full transition-all duration-300 ${getStrengthColor(passwordStrength)}`}
-                  style={{ width: `${(passwordStrength / 4) * 100}%` }}
-                />
-              </div>
-            </div>
-          )}
+          <PasswordStrength password={password ?? ""} />
         </div>
 
-        {/* Confirm Password with Toggle */}
+        {/* Confirm Password */}
         <FormField
           id="confirmPassword"
           label="Confirm New Password"
@@ -210,22 +142,6 @@ export default function ResetPasswordPage() {
           required
           {...register("confirmPassword")}
         />
-
-        {/* Password Requirements */}
-        <div className="text-xs text-gray-500 space-y-1 mt-1">
-          <p className="font-medium">Password must contain:</p>
-          <ul className="space-y-0.5 pl-4 list-disc">
-            <li className={password?.length >= 8 ? "text-green-600" : ""}>
-              At least 8 characters
-            </li>
-            <li className={/[a-z]/.test(password) && /[A-Z]/.test(password) ? "text-green-600" : ""}>
-              At least one uppercase and one lowercase letter
-            </li>
-            <li className={/\d/.test(password) ? "text-green-600" : ""}>
-              At least one number
-            </li>
-          </ul>
-        </div>
 
         <div className="flex flex-col gap-3.5 mt-2">
           <Button 
