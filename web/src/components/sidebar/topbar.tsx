@@ -3,6 +3,7 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Bell } from "lucide-react";
 
 // Map route segments → display title
 const PAGE_TITLES: Record<string, string> = {
@@ -69,12 +70,9 @@ export default function TopBar() {
       </div>
 
       {/* Right side: avatar */}
-      <Avatar className="size-9 shrink-0 cursor-pointer ring-2 ring-[oklch(0.9_0.01_350)] hover:ring-[#d44876]/40 transition-all duration-150">
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback className="bg-gradient-to-br from-[#d44876] to-[#f6bc9c] text-white text-sm font-semibold">
-          CH
-        </AvatarFallback>
-      </Avatar>
+    <div className="rounded-full bg-primary p-2">
+        <Bell className="size-5 text-white" />
+    </div>
     </header>
   );
 }

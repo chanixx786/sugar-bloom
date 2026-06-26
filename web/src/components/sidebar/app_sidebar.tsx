@@ -146,10 +146,10 @@ function SidebarInner({ onNavClick }: { onNavClick?: () => void }) {
         <SidebarMenu className="gap-2">
           {/* Settings */}
           <NavItem
-            href="/dashboard/settings"
+            href="/settings"
             icon={Settings}
             label="Settings"
-            active={isActive("/dashboard/settings")}
+            active={isActive("/settings")}
             onClick={onNavClick}
           />
 
