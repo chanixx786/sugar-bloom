@@ -49,7 +49,7 @@ export default function AuthLayout({
         </div>
 
         {/* Right Column: Form Card - SCROLLABLE WITH HIDDEN SCROLLBAR */}
-        <div className="w-full max-w-md flex justify-center">
+        <div className="w-full max-w-md flex justify-center ">
           <Card className="w-full border-none shadow-[0_20px_50px_rgba(212,72,118,0.06)] rounded-[32px] bg-white overflow-hidden">
             <CardContent className="flex flex-col gap-5 p-6 md:p-8 max-h-[80vh] overflow-y-auto auth-card-scroll">
               {/* Logo / Branding */}
