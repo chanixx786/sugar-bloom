@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { FormField } from "@/components/ui/form-field";
+import { FormField } from "@/components/ui/form/form-field";
 import { resetPasswordSchema, ResetPasswordInput } from "@/schemas/auth_schema";
 import { CheckCircle, AlertCircle } from "lucide-react";
 
@@ -105,7 +105,7 @@ export default function ResetPasswordPage() {
             <p className="text-gray-600 mb-6">
               Your password has been successfully reset. You can now log in with your new password.
             </p>
-            <Button 
+            <Button
               className="w-full bg-[#c2406a] hover:bg-[#a8345a]"
               onClick={() => window.location.href = "/login"}
             >
@@ -131,14 +131,14 @@ export default function ResetPasswordPage() {
             </h2>
             <p className="text-gray-600 mb-4">{error}</p>
             <div className="space-y-3">
-              <Button 
+              <Button
                 className="w-full bg-[#c2406a] hover:bg-[#a8345a]"
                 onClick={() => window.location.href = "/forgot-password"}
               >
                 Request New Reset Link
               </Button>
-              <Button 
-                className="w-full" 
+              <Button
+                className="w-full"
                 variant="outline"
                 onClick={() => window.location.href = "/login"}
               >
@@ -181,12 +181,11 @@ export default function ResetPasswordPage() {
             <div className="mt-2">
               <div className="flex justify-between items-center mb-1">
                 <span className="text-xs text-gray-500">Password strength:</span>
-                <span className={`text-xs font-semibold ${
-                  passwordStrength < 2 ? "text-red-500" :
-                  passwordStrength === 2 ? "text-yellow-500" :
-                  passwordStrength === 3 ? "text-blue-500" :
-                  "text-green-500"
-                }`}>
+                <span className={`text-xs font-semibold ${passwordStrength < 2 ? "text-red-500" :
+                    passwordStrength === 2 ? "text-yellow-500" :
+                      passwordStrength === 3 ? "text-blue-500" :
+                        "text-green-500"
+                  }`}>
                   {getStrengthText(passwordStrength)}
                 </span>
               </div>
@@ -228,7 +227,7 @@ export default function ResetPasswordPage() {
         </div>
 
         <div className="flex flex-col gap-3.5 mt-2">
-          <Button 
+          <Button
             type="submit"
             disabled={isSubmitting}
           >

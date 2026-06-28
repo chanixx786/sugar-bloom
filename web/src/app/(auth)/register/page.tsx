@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { FormField } from "@/components/ui/form-field";
+import { FormField } from "@/components/ui/form/form-field";
 import { registerSchema, RegisterInput } from "@/schemas/auth_schema";
 
 export default function RegisterPage() {
@@ -72,15 +72,15 @@ export default function RegisterPage() {
           />
 
         </div>
-         <FormField
-            id="mname"
-            label="Middle Name"
-            type="text"
-            placeholder="Middle Name"
-            error={errors.mname}
-            
-            {...register("mname")}
-          />
+        <FormField
+          id="mname"
+          label="Middle Name"
+          type="text"
+          placeholder="Middle Name"
+          error={errors.mname}
+
+          {...register("mname")}
+        />
         {/* Password Field */}
         <FormField
           id="password"
