@@ -119,7 +119,7 @@ export default function ProductPage() {
       />
 
       <Card>
-        <CardContent className="flex flex-col gap-4">
+        <CardContent className="flex flex-col gap-8">
           {/*  Search & Filtering Interface  */}
           <ProductFilters
             searchQuery={searchQuery}
@@ -130,7 +130,6 @@ export default function ProductPage() {
             setStatusFilter={handleStatusFilter}
           />
 
-          <Separator className="mb-8" />
 
           {/*  Products Grid  */}
           {paginatedProducts.length === 0 ? (

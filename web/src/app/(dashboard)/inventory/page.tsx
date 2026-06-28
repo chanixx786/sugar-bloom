@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { Plus, Boxes } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Boxes } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 
@@ -11,6 +10,7 @@ import { getInventoryColumns } from "./columns";
 import { InventoryStats } from "./inventory-stats";
 import { InventoryFilters } from "./inventory-filters";
 import { PageHeader } from "@/components/ui/page-header";
+import InventoryModal from "./modal";
 
 // Page
 
@@ -19,6 +19,9 @@ export default function InventoryPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("All");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentItem, setCurrentItem] = useState<InventoryItem | null>(null);
 
   // Stats
   const stats = useMemo(() => ({
@@ -40,10 +43,25 @@ export default function InventoryPage() {
   }, [inventory, search, statusFilter, categoryFilter]);
 
   // Handlers
-  const handleEdit = (item: InventoryItem) => console.log("Edit", item);
+  const handleEdit = (item: InventoryItem) => {
+    setCurrentItem(item);
+    setIsModalOpen(true);
+  };
+  
   const handleDelete = (item: InventoryItem) => {
     if (confirm(`Delete "${item.item}" from inventory?`))
       setInventory((prev) => prev.filter((i) => i.id !== item.id));
+  };
+
+  const handleSave = (savedItem: InventoryItem) => {
+    setInventory((prev) => {
+      const exists = prev.some((i) => i.id === savedItem.id);
+      if (exists) {
+        return prev.map((i) => (i.id === savedItem.id ? savedItem : i));
+      }
+      return [savedItem, ...prev];
+    });
+    setIsModalOpen(false);
   };
 
   const columns = getInventoryColumns(handleEdit, handleDelete);
@@ -57,9 +75,11 @@ export default function InventoryPage() {
         description="Track raw materials, ingredients, and packaging stock levels."
         icon={Boxes}
         buttonLabel="Add Inventory"
-        onButtonClick={() => console.log("Add Inventory")}
+        onButtonClick={() => {
+          setCurrentItem(null);
+          setIsModalOpen(true);
+        }}
       />
-     
 
       {/* Stats Cards */}
       <InventoryStats
@@ -68,21 +88,20 @@ export default function InventoryPage() {
         lowStock={stats.lowStock}
         outOfStock={stats.outOfStock}
       />
+      
       {/* Data Table */}
       <Card>
-        <CardContent>
-          <div className="mb-8">
-            {/* Search & Filters */}
-            <InventoryFilters
-              searchQuery={search}
-              setSearchQuery={setSearch}
-              categoryFilter={categoryFilter}
-              setCategoryFilter={setCategoryFilter}
-              statusFilter={statusFilter}
-              setStatusFilter={setStatusFilter}
-            />
+        <CardContent className="flex flex-col gap-8">
+          {/* Search & Filters */}
+          <InventoryFilters
+            searchQuery={search}
+            setSearchQuery={setSearch}
+            categoryFilter={categoryFilter}
+            setCategoryFilter={setCategoryFilter}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+          />
 
-          </div>
           <DataTable
             columns={columns}
             data={filteredData}
@@ -91,6 +110,14 @@ export default function InventoryPage() {
           />
         </CardContent>
       </Card>
+
+      {/* Inventory Modal */}
+      <InventoryModal
+        item={currentItem}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSave}
+      />
 
     </div>
   );

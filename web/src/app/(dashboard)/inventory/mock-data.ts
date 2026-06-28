@@ -11,6 +11,7 @@ export interface InventoryItem {
   threshold: number;
   threshold_unit: string;
   status: InventoryStatus;
+  expiry_date?: string;
 }
 
 // Category Colors

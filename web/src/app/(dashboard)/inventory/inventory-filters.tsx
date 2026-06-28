@@ -62,14 +62,14 @@ export function InventoryFilters({
         {/* Filters Controls */}
         <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
           {/* Category Tabs */}
-          <div className="flex items-center bg-gray-100/80 p-1 rounded-2xl overflow-x-auto max-w-full">
+          <div className="flex items-center bg-gray-100/80 p-1 rounded-xl overflow-x-auto max-w-full">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setCategoryFilter(cat)}
                 className={cn(
-                  "px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer whitespace-nowrap",
+                  "px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer whitespace-nowrap",
                   categoryFilter === cat
                     ? "bg-white text-[oklch(0.3828_0.106_350.28)] shadow-sm font-bold"
                     : "text-[oklch(0.55_0.08_350)] hover:text-[oklch(0.3828_0.106_350.28)]"

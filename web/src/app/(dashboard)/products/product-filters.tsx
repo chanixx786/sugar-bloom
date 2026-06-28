@@ -63,14 +63,14 @@ export function ProductFilters({
         {/* Filters Controls */}
         <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
           {/* Category Tabs */}
-          <div className="flex items-center bg-gray-100/80 p-1 rounded-2xl">
+          <div className="flex items-center bg-gray-100/80 p-1 rounded-xl">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setCategoryFilter(cat)}
                 className={cn(
-                  "px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer",
+                  "px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer",
                   categoryFilter === cat
                     ? "bg-white text-[oklch(0.3828_0.106_350.28)] shadow-sm font-bold"
                     : "text-[oklch(0.55_0.08_350)] hover:text-[oklch(0.3828_0.106_350.28)]"
@@ -82,7 +82,7 @@ export function ProductFilters({
           </div>
 
           {/* Status Select */}
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val ?? "All")}>
             <SelectTrigger className="h-9 w-36 bg-white/50 border-gray-200/60 rounded-xl text-xs font-semibold text-[oklch(0.3828_0.106_350.28)]">
               <span className="text-gray-400 font-normal mr-1">Status:</span>
               <SelectValue placeholder="All Statuses" />
