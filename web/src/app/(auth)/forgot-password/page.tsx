@@ -3,12 +3,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { FormField } from "@/components/ui/form-field";
+import { FormField } from "@/components/ui/form/form-field";
 import { forgotPasswordSchema, ForgotPasswordInput } from "@/schemas/auth_schema";
 import { useRouter } from "next/navigation";
- 
+
 export default function ForgotPasswordPage() {
-    const router = useRouter(); 
+    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -52,7 +52,7 @@ export default function ForgotPasswordPage() {
                         className="w-full"
                         size="lg"
                         type="submit"
-                        disabled={isSubmitting}             
+                        disabled={isSubmitting}
                     >
                         {isSubmitting ? "Sending..." : "Send Reset Link"}
                     </Button>

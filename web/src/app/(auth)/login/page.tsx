@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { FormField } from "@/components/ui/form-field";
+import { FormField } from "@/components/ui/form/form-field";
 import { loginSchema, LoginInput } from "@/schemas/auth_schema";
 import { useRouter } from "next/navigation";
 export default function LoginPage() {
@@ -67,8 +67,8 @@ export default function LoginPage() {
 
         {/* Submit & Register */}
         <div className="flex flex-col gap-3.5 mt-1">
-          <Button 
-            className="w-full" 
+          <Button
+            className="w-full"
             size="lg"
             type="submit"
             disabled={isSubmitting}

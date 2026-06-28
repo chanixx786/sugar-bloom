@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Product } from "./mock-data";
-import { ProductImageCarousel } from "./ProductImageCarousel";
+import { ProductImageCarousel } from "./image-carousel";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash2 } from "lucide-react";
@@ -83,7 +83,7 @@ export function ProductCard({ product, onEdit, onDelete }: ProductCardProps) {
           <h3 className="font-bold text-base text-[oklch(0.3828_0.106_350.28)] ">
             {product.prodlist.prodlist_name}
           </h3>
-          <p className="text-xs text-[oklch(0.55_0.08_350)] line-clamp-2 h-full leading-relaxed">
+          <p className="text-xs text-accent-foreground line-clamp-2 h-full leading-relaxed">
             {product.description}
           </p>
         </div>
@@ -143,7 +143,7 @@ export function ProductCard({ product, onEdit, onDelete }: ProductCardProps) {
       </CardContent>
 
       {/* Card Actions Footer */}
-      <CardFooter className="py-3.5 px-6   bg-primary/20 flex justify-between gap-2">
+      <CardFooter className="py-3.5 px-6  bg-secondary/50 flex justify-between gap-2">
         <span className="text-[10px] text-foreground flex items-center gap-1">
           Updated: {new Date(product.updated_at).toLocaleDateString()}
         </span>

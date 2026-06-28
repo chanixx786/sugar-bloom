@@ -2,11 +2,7 @@ import { Sun } from "lucide-react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative min-h-screen md:h-screen w-full flex items-center justify-center p-4 md:p-6 lg:p-8 bg-gradient-to-br from-[#fee2e2] via-[#fffbf9] to-[#fee2e2] overflow-hidden">
       {/* Decorative background blur shapes for premium appearance */}
@@ -23,16 +19,16 @@ export default function AuthLayout({
           </div>
 
           {/* Heading */}
-          <h1 className="font-dancing text-5xl md:text-6xl lg:text-[75px] text-[#c2406a] leading-tight select-none">
-            Sweetness,
-            <br />
-            in full bloom.
+          <h1 className="text-5xl md:text-6xl lg:text-[75px] text-[#c2406a] leading-tight select-none">
+            <span className=" font-bold">Sweetness,</span> <br />
+            <span className="font-bold">in </span>
+            <span className="font-dancing"> full bloom.</span>{" "}
           </h1>
 
           {/* Description */}
-          <p className="mt-3 text-[#6e5d5d] text-sm md:text-base leading-relaxed font-sans max-w-sm">
-            Cakes layered with rose-cream. Ice cream churned with petals.
-            Bouquets tied by hand. A boutique for the moments worth celebrating.
+          <p className="mt-3 text-foreground text-sm md:text-base leading-relaxed font-sans max-w-sm">
+            Beautifully crafted cakes with exceptional taste, made fresh to elevate every occasion -
+            from quiet mornings to milestone celebrations.
           </p>
 
           {/* Cupcake Splash graphic */}

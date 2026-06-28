@@ -1,28 +1,20 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { Plus, Search, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious
-} from "@/components/ui/pagination";
-import { cn } from "@/lib/utils";
 
 import { Product, INITIAL_PRODUCTS } from "./mock-data";
-import { ProductStats } from "./ProductStats";
-import { ProductFilters } from "./ProductFilters";
-import { ProductCard } from "./ProductCard";
+import { ProductStats } from "./product-stats";
+import { ProductFilters } from "./product-filters";
+import { ProductCard } from "./product-card";
 import { Separator } from "@/components/ui/separator";
+import ProductModal from "./modal";
+import { SmartPagination } from "@/components/ui/pagination/smart-pagination";
 
-export default function DashboardPage() {
-  // Page states
-  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+export default function ProductPage() {
+ const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -30,11 +22,33 @@ export default function DashboardPage() {
   const itemsPerPage = 6;
 
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Reset to first page when filtering
-  useEffect(() => {
+  const handleSaveProduct = (updatedProduct: Product) => {
+    if (currentProduct) {
+      setProducts((prev) =>
+        prev.map((p) => (p.prod_id === updatedProduct.prod_id ? updatedProduct : p))
+      );
+    } else {
+      setProducts((prev) => [updatedProduct, ...prev]);
+    }
+    setIsModalOpen(false);
+  };
+
+  const handleSearchQuery = (value: string) => {
+    setSearchQuery(value);
     setCurrentPage(1);
-  }, [searchQuery, categoryFilter, statusFilter]);
+  };
+
+  const handleCategoryFilter = (value: string) => {
+    setCategoryFilter(value);
+    setCurrentPage(1);
+  };
+
+  const handleStatusFilter = (value: string) => {
+    setStatusFilter(value);
+    setCurrentPage(1);
+  };
 
   // Calculations for stats dashboard cards
   const stats = useMemo(() => {
@@ -52,7 +66,6 @@ export default function DashboardPage() {
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // Search query match
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter(
@@ -63,12 +76,10 @@ export default function DashboardPage() {
       );
     }
 
-    // Category filter
     if (categoryFilter !== "All") {
       result = result.filter((p) => p.prodlist.cat.cat_name === categoryFilter);
     }
 
-    // Status filter
     if (statusFilter !== "All") {
       result = result.filter((p) => p.prod_status === statusFilter);
     }
@@ -86,24 +97,30 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-6 w-full animate-fade-in duration-300">
-      {/* ── Page Header ── */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-gray-200/50">
+      {/*  Page Header  */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-primary/20">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[oklch(0.3828_0.106_350.28)] flex items-center gap-2">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
             Products Directory
-            <Sparkles className="size-5 text-[#d44876] animate-pulse" />
+            <Sparkles className="size-5 text-primary animate-pulse" />
           </h1>
-          <p className="text-sm text-[oklch(0.55_0.08_350)]">
+          <p className="text-sm text-accent-foreground">
             Manage your delicious product catalog, pricing structures, inventory levels, and active
             promotions.
           </p>
         </div>
-        <Button className="bg-gradient-to-r from-[#d44876] to-[#f6bc9c] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer">
+        <Button
+          onClick={() => {
+            setCurrentProduct(null);
+            setIsModalOpen(true);
+          }}
+          className="bg-gradient-to-r from-[#d44876] to-[#f6bc9c] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+        >
           <Plus className="size-4" /> Add Product
         </Button>
       </div>
 
-      {/* ── Summary Stats Cards ── */}
+      {/*  Summary Stats Cards  */}
       <ProductStats
         total={stats.total}
         active={stats.active}
@@ -112,22 +129,22 @@ export default function DashboardPage() {
       />
 
       <Card>
-        <CardContent className=" flex flex-col gap-4">
-          {/* ── Search & Filtering Interface ── */}
+        <CardContent className="flex flex-col gap-4">
+          {/*  Search & Filtering Interface  */}
           <ProductFilters
             searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
+            setSearchQuery={handleSearchQuery}
             categoryFilter={categoryFilter}
-            setCategoryFilter={setCategoryFilter}
+            setCategoryFilter={handleCategoryFilter}
             statusFilter={statusFilter}
-            setStatusFilter={setStatusFilter}
+            setStatusFilter={handleStatusFilter}
           />
 
-        <Separator className="mb-8"/>
-         
-          {/* ── Products Grid ── */}
+          <Separator className="mb-8" />
+
+          {/*  Products Grid  */}
           {paginatedProducts.length === 0 ? (
-            <Card className="border border-dashed border-pink-200 py-16 text-center bg-white/40 ">
+            <Card className="border border-dashed border-pink-200 py-16 text-center bg-white/40">
               <CardContent className="flex flex-col items-center gap-3">
                 <div className="p-4 bg-pink-50 rounded-full text-[#d44876]">
                   <Search className="size-8" />
@@ -142,9 +159,9 @@ export default function DashboardPage() {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    setSearchQuery("");
-                    setCategoryFilter("All");
-                    setStatusFilter("All");
+                    handleSearchQuery("");
+                    handleCategoryFilter("All");
+                    handleStatusFilter("All");
                   }}
                   className="mt-2"
                 >
@@ -160,77 +177,34 @@ export default function DashboardPage() {
                   product={product}
                   onEdit={(prod) => {
                     setCurrentProduct(prod);
+                    setIsModalOpen(true);
                   }}
                   onDelete={(prod) => {
-                    setCurrentProduct(prod);
+                    if (confirm(`Are you sure you want to delete ${prod.prodlist.prodlist_name}?`)) {
+                      setProducts((prev) => prev.filter((p) => p.prod_id !== prod.prod_id));
+                    }
                   }}
                 />
               ))}
             </div>
           )}
 
-          {/* ── Pagination Controls ── */}
-          {totalPages > 1 && (
-            <div className="mt-8 flex justify-center w-full">
-              <Pagination>
-                <PaginationContent>
-                  {/* Previous Page Link */}
-                  <PaginationItem>
-                    <PaginationPrevious
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (currentPage > 1) setCurrentPage(currentPage - 1);
-                      }}
-                      className={cn(
-                        "cursor-pointer",
-                        currentPage === 1 &&
-                          "pointer-events-none opacity-50 bg-transparent text-gray-400"
-                      )}
-                    />
-                  </PaginationItem>
-
-                  {/* Numbered Page Links */}
-                  {Array.from({ length: totalPages }).map((_, idx) => {
-                    const pageNum = idx + 1;
-                    return (
-                      <PaginationItem key={pageNum}>
-                        <PaginationLink
-                          href="#"
-                          isActive={pageNum === currentPage}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage(pageNum);
-                          }}
-                          className="cursor-pointer font-semibold rounded-xl"
-                        >
-                          {pageNum}
-                        </PaginationLink>
-                      </PaginationItem>
-                    );
-                  })}
-
-                  {/* Next Page Link */}
-                  <PaginationItem>
-                    <PaginationNext
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-                      }}
-                      className={cn(
-                        "cursor-pointer",
-                        currentPage === totalPages &&
-                          "pointer-events-none opacity-50 bg-transparent text-gray-400"
-                      )}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </div>
-          )}
+          {/*  Pagination Controls  */}
+          <SmartPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            className="mt-8"
+          />
         </CardContent>
       </Card>
+
+      <ProductModal
+        product={currentProduct}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveProduct}
+      />
     </div>
   );
 }

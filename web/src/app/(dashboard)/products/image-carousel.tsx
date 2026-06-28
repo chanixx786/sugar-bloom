@@ -38,7 +38,7 @@ export function ProductImageCarousel({ images, productName }: ProductImageCarous
         <CarouselContent className="ml-0">
           {images.map((img, idx) => (
             <CarouselItem key={idx} className="pl-0 basis-full">
-              <div className="relative w-full h-70">
+              <div className="relative w-full h-60">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={img}

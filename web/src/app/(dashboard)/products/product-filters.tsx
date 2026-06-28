@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,12 +19,9 @@ export function ProductFilters({
   categoryFilter,
   setCategoryFilter,
   statusFilter,
-  setStatusFilter,
+  setStatusFilter
 }: ProductFiltersProps) {
-  const isFiltering =
-    searchQuery ||
-    categoryFilter !== "All" ||
-    statusFilter !== "All";
+  const isFiltering = searchQuery || categoryFilter !== "All" || statusFilter !== "All";
 
   const handleClearFilters = () => {
     setSearchQuery("");
@@ -35,7 +30,7 @@ export function ProductFilters({
   };
 
   return (
-    <div >
+    <div>
       <div className=" flex flex-col lg:flex-row gap-4 items-center justify-between">
         {/* Search Box */}
         <div className="relative w-full lg:max-w-md">

@@ -18,12 +18,12 @@ export function ProductStats({ total, active, totalStock, lowStock }: ProductSta
       <Card className="  bg-gradient-to-r from-[#d4487727] to-[#f6bc9c34]  backdrop-blur-sm shadow-lg hover:shadow-md transition-shadow">
         <CardContent className="pt-6 flex items-center justify-between">
           <div className="flex flex-col gap-1">
-            <span className="text-xs font-medium uppercase tracking-wider text-[oklch(0.55_0.08_350)]">
+            <span className="text-xs font-medium uppercase tracking-wider text-foreground">
               Total Products
             </span>
-            <span className="text-3xl font-bold text-[oklch(0.3828_0.106_350.28)]">{total}</span>
+            <span className="text-3xl font-bold text-foreground">{total}</span>
           </div>
-          <div className="p-3 bg-primary/70 rounded-2xl text-white">
+          <div className="p-3 bg-secondary rounded-2xl text-primary">
             <Layers className="size-6" />
           </div>
         </CardContent>
@@ -38,7 +38,7 @@ export function ProductStats({ total, active, totalStock, lowStock }: ProductSta
             </span>
             <span className="text-3xl font-bold text-foreground">{active}</span>
           </div>
-          <div className="p-3 bg-primary/70 rounded-2xl text-white">
+          <div className="p-3 bg-secondary rounded-2xl text-primary">
             <CheckCircle className="size-6" />
           </div>
         </CardContent>
@@ -53,7 +53,7 @@ export function ProductStats({ total, active, totalStock, lowStock }: ProductSta
             </span>
             <span className="text-3xl font-bold text-foreground">{totalStock}</span>
           </div>
-          <div className="p-3 bg-primary/70 rounded-2xl text-white">
+          <div className="p-3 bg-secondary rounded-2xl text-primary">
             <PackageOpen className="size-6" />
           </div>
         </CardContent>
@@ -68,7 +68,7 @@ export function ProductStats({ total, active, totalStock, lowStock }: ProductSta
             </span>
             <span className="text-3xl font-bold text-foreground">{lowStock}</span>
           </div>
-          <div className="p-3 bg-primary/70 rounded-2xl text-white">
+          <div className="p-3 bg-secondary rounded-2xl text-primary">
             <AlertTriangle className="size-6" />
           </div>
         </CardContent>

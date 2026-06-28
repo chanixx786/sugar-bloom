@@ -48,7 +48,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
           <Label 
             htmlFor={id} 
             className={`
-              text-xs font-semibold text-gray-600 block pl-1
+              text-xs font-semibold foreground block pl-1
               ${labelClassName || ""}
             `}
           >
@@ -56,7 +56,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
             {required && <span className="text-red-500 ml-0.5">*</span>}
           </Label>
           {description && (
-            <span className="text-xs text-gray-400">{description}</span>
+            <span className="text-xs text-foreground">{description}</span>
           )}
         </div>
         
