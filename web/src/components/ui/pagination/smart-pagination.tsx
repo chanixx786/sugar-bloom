@@ -1,13 +1,13 @@
 "use client";
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination/pagination";
 import { cn } from "@/lib/utils";
 
@@ -67,30 +67,30 @@ export function SmartPagination({
   const pages = getPageRange(currentPage, totalPages, siblingCount);
 
   return (
-    <div className={cn("flex justify-end w-full", className)}>
-      <Pagination>
-        <PaginationContent>
+    <div className={cn("flex items-center justify-between w-full", className)}>
+      <Pagination className="justify-end">
+        <PaginationContent className="gap-1">
           {/* Previous */}
           <PaginationItem>
-            <PaginationPrevious
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                if (currentPage > 1) onPageChange(currentPage - 1);
-              }}
+            <Button
+              variant="outline"
+              size="icon"
               className={cn(
-                "cursor-pointer",
-                currentPage === 1 &&
-                  "pointer-events-none opacity-50 bg-transparent text-gray-400"
+                "size-8 rounded-lg border-border/60 cursor-pointer",
+                currentPage === 1 && "pointer-events-none opacity-40"
               )}
-            />
+              onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+              aria-label="Previous page"
+            >
+              <ChevronLeft className="size-4" />
+            </Button>
           </PaginationItem>
 
-          {/* Page Numbers */}
+          {/* Page numbers */}
           {pages.map((page, idx) =>
             page === "ellipsis" ? (
               <PaginationItem key={`ellipsis-${idx}`}>
-                <PaginationEllipsis />
+                <PaginationEllipsis className="size-8" />
               </PaginationItem>
             ) : (
               <PaginationItem key={page}>
@@ -101,7 +101,12 @@ export function SmartPagination({
                     e.preventDefault();
                     onPageChange(page);
                   }}
-                  className="cursor-pointer font-semibold rounded-xl"
+                  className={cn(
+                    "size-8 rounded-lg font-semibold text-sm cursor-pointer transition-all",
+                    page === currentPage
+                      ? "bg-gradient-to-r from-[#d44876] to-[#f6bc9c] text-white border-0 shadow-sm hover:opacity-90"
+                      : "border-border/60 hover:bg-muted/60"
+                  )}
                 >
                   {page}
                 </PaginationLink>
@@ -111,18 +116,18 @@ export function SmartPagination({
 
           {/* Next */}
           <PaginationItem>
-            <PaginationNext
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                if (currentPage < totalPages) onPageChange(currentPage + 1);
-              }}
+            <Button
+              variant="outline"
+              size="icon"
               className={cn(
-                "cursor-pointer",
-                currentPage === totalPages &&
-                  "pointer-events-none opacity-50 bg-transparent text-gray-400"
+                "size-8 rounded-lg border-border/60 cursor-pointer",
+                currentPage === totalPages && "pointer-events-none opacity-40"
               )}
-            />
+              onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
+              aria-label="Next page"
+            >
+              <ChevronRight className="size-4" />
+            </Button>
           </PaginationItem>
         </PaginationContent>
       </Pagination>

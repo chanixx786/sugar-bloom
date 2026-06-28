@@ -22,7 +22,7 @@ export interface Product {
 
 
 
-// ─── Default Category Images ──────────────────────────────────────────────────
+// Default Category Images
 
 export const DEFAULT_IMAGES: Record<string, string[]> = {
   Cakes: [
@@ -48,7 +48,7 @@ export const DEFAULT_FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop&q=80",
 ];
 
-// ─── Initial Seed Matching Mock Products ────────────────────────────────────────
+// Initial Seed Data
 
 export const INITIAL_PRODUCTS: Product[] = [
   {
