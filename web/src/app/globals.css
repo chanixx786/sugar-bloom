@@ -147,3 +147,47 @@
     font-family: var(--font-poppins), cursive;
   }
 }
+
+/* ── Sonner Toast Theme ─────────────────────────────────────── */
+[data-sonner-toaster] [data-sonner-toast] {
+  /* Base (info) */
+  --normal-bg:     oklch(1 0 0);
+  --normal-text:   oklch(0.3828 0.106 350.28);
+  --normal-border: oklch(58.047% 0.17958 0.004 / 0.2);
+
+  /* Success → brand pink */
+  --success-bg:     oklch(0.97 0.012 350);
+  --success-text:   oklch(0.3828 0.106 350.28);
+  --success-border: oklch(0.58 0.18 0 / 0.35);
+
+  /* Error → destructive red */
+  --error-bg:     oklch(0.97 0.012 27);
+  --error-text:   oklch(0.577 0.245 27.325);
+  --error-border: oklch(0.577 0.245 27.325 / 0.35);
+
+  /* Warning → amber */
+  --warning-bg:     oklch(0.97 0.03 80);
+  --warning-text:   oklch(0.45 0.12 80);
+  --warning-border: oklch(0.7 0.15 80 / 0.4);
+
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 20px -4px oklch(0.58 0.18 0 / 0.15);
+  font-family: var(--font-poppins), system-ui, sans-serif;
+  font-size: 0.875rem;
+}
+
+/* Success icon colour → brand pink */
+[data-sonner-toaster] [data-sonner-toast][data-type="success"] [data-icon] svg {
+  color: oklch(0.58 0.18 0);
+}
+
+/* Left accent bar on success */
+[data-sonner-toaster] [data-sonner-toast][data-type="success"] {
+  border-left: 3px solid oklch(0.58 0.18 0);
+}
+
+/* Left accent bar on error */
+[data-sonner-toaster] [data-sonner-toast][data-type="error"] {
+  border-left: 3px solid oklch(0.577 0.245 27.325);
+}
+

@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// ─── Nav config ───────────────────────────────────────────────────────────────
+// Nav config
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -43,7 +43,7 @@ const navItems = [
   { label: "Budget", href: "/budget", icon: PiggyBank },
 ];
 
-// ─── Nav Item ─────────────────────────────────────────────────────────────────
+// Nav Item
 
 function NavItem({
   href,
@@ -74,12 +74,12 @@ function NavItem({
           "group flex items-center rounded-xl text-sm font-medium",
           "transition-all duration-200 ease-in-out",
 
-          // ── COLLAPSED: fixed square so active pill = idle pill ─────────
+          // Collapsed: fixed square so active pill = idle pill
           collapsed
-            ? "size-10 justify-center shrink-0" // 40×40 — roomier square for larger icon
-            : "w-full gap-3 px-3 py-3", // balanced equal padding when expanded
+            ? "size-10 justify-center shrink-0" 
+            : "w-full gap-3 px-3 py-3", 
 
-          // ── IDLE ─────────────────────────────────────────────────────
+          // Idle state
           !active && [
             "text-[oklch(0.42_0.08_350)]",
             "hover:bg-[oklch(0.93_0.03_350)]",
@@ -87,7 +87,7 @@ function NavItem({
             "hover:shadow-[0_2px_8px_-2px_rgba(212,72,118,0.18)]",
           ],
 
-          // ── ACTIVE ───────────────────────────────────────────────────
+          // Active state
           active && [
             "bg-gradient-to-r from-[#d44876] to-[#f6bc9c]",
             "text-white",
@@ -114,7 +114,7 @@ function NavItem({
   );
 }
 
-// ─── Sidebar inner content ────────────────────────────────────────────────────
+// Sidebar inner content
 
 function SidebarInner({ onNavClick }: { onNavClick?: () => void }) {
   const pathname = usePathname();
@@ -142,7 +142,7 @@ function SidebarInner({ onNavClick }: { onNavClick?: () => void }) {
         </SidebarGroup>
       </SidebarContent>
 
-      {/* ── Footer: Settings + User ── */}
+      {/* Footer: Settings + User */}
       <SidebarFooter className="px-3 pb-4 pt-2 border-t border-border">
         <SidebarMenu className="gap-3">
           {/* Settings */}
@@ -171,7 +171,7 @@ function SidebarInner({ onNavClick }: { onNavClick?: () => void }) {
   );
 }
 
-// ─── User card (collapses to avatar-only) ────────────────────────────────────
+// User card
 
 function UserCard() {
   const { state } = useSidebar();
@@ -206,7 +206,7 @@ function UserCard() {
   );
 }
 
-// ─── Main export ──────────────────────────────────────────────────────────────
+// Main export
 
 export function AppSidebar() {
   const { isMobile, setOpenMobile, state } = useSidebar();
@@ -218,7 +218,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className="border-r border-border ">
-      {/* ── Logo header ── */}
+      {/* Logo header */}
       <SidebarHeader
         className={cn(
           "px-4 py-4 transition-all duration-200",

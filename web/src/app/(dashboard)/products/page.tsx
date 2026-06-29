@@ -12,9 +12,11 @@ import { ProductCard } from "./product-card";
 import { Separator } from "@/components/ui/separator";
 import ProductModal from "./modal";
 import { SmartPagination } from "@/components/ui/pagination/smart-pagination";
+import { PageHeader } from "@/components/ui/page-header";
+import { toast } from "sonner";
 
 export default function ProductPage() {
- const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -29,8 +31,10 @@ export default function ProductPage() {
       setProducts((prev) =>
         prev.map((p) => (p.prod_id === updatedProduct.prod_id ? updatedProduct : p))
       );
+      toast.success(`"${updatedProduct.prodlist.prodlist_name}" updated successfully.`);
     } else {
       setProducts((prev) => [updatedProduct, ...prev]);
+      toast.success(`"${updatedProduct.prodlist.prodlist_name}" added to products.`);
     }
     setIsModalOpen(false);
   };
@@ -98,27 +102,16 @@ export default function ProductPage() {
   return (
     <div className="flex flex-col gap-6 w-full animate-fade-in duration-300">
       {/*  Page Header  */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-primary/20">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
-            Products Directory
-            <Sparkles className="size-5 text-primary animate-pulse" />
-          </h1>
-          <p className="text-sm text-accent-foreground">
-            Manage your delicious product catalog, pricing structures, inventory levels, and active
-            promotions.
-          </p>
-        </div>
-        <Button
-          onClick={() => {
-            setCurrentProduct(null);
-            setIsModalOpen(true);
-          }}
-          className="bg-gradient-to-r from-[#d44876] to-[#f6bc9c] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-        >
-          <Plus className="size-4" /> Add Product
-        </Button>
-      </div>
+      <PageHeader
+        title="Products Directory"
+        description="Manage your delicious product catalog, pricing structures, inventory levels, and active promotions."
+        icon={Sparkles}
+        buttonLabel="Add Product"
+        onButtonClick={() => {
+          setCurrentProduct(null);
+          setIsModalOpen(true);
+        }}
+      />
 
       {/*  Summary Stats Cards  */}
       <ProductStats
@@ -129,7 +122,7 @@ export default function ProductPage() {
       />
 
       <Card>
-        <CardContent className="flex flex-col gap-4">
+        <CardContent className="flex flex-col gap-8">
           {/*  Search & Filtering Interface  */}
           <ProductFilters
             searchQuery={searchQuery}
@@ -140,7 +133,6 @@ export default function ProductPage() {
             setStatusFilter={handleStatusFilter}
           />
 
-          <Separator className="mb-8" />
 
           {/*  Products Grid  */}
           {paginatedProducts.length === 0 ? (
@@ -182,6 +174,7 @@ export default function ProductPage() {
                   onDelete={(prod) => {
                     if (confirm(`Are you sure you want to delete ${prod.prodlist.prodlist_name}?`)) {
                       setProducts((prev) => prev.filter((p) => p.prod_id !== prod.prod_id));
+                      toast.success(`"${prod.prodlist.prodlist_name}" removed from products.`);
                     }
                   }}
                 />
@@ -190,12 +183,27 @@ export default function ProductPage() {
           )}
 
           {/*  Pagination Controls  */}
-          <SmartPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-            className="mt-8"
-          />
+          <div className="flex items-center justify-between gap-4 mt-8 pt-1">
+            <p className="text-xs text-muted-foreground shrink-0">
+              Showing{" "}
+              <span className="font-medium text-foreground">
+                {filteredProducts.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}
+              </span>
+              {" – "}
+              <span className="font-medium text-foreground">
+                {Math.min(currentPage * itemsPerPage, filteredProducts.length)}
+              </span>
+              {" of "}
+              <span className="font-medium text-foreground">{filteredProducts.length}</span>
+              {" items"}
+            </p>
+
+            <SmartPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
         </CardContent>
       </Card>
 
