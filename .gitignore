@@ -11,6 +11,14 @@ web/.yarn/*
 !web/.yarn/plugins
 !web/.yarn/releases
 !web/.yarn/versions
+web/node_modules/
+web/.pnp
+web/.pnp.*
+web/.yarn/*
+!web/.yarn/patches
+!web/.yarn/plugins
+!web/.yarn/releases
+!web/.yarn/versions
 
 # testing
 web/coverage/

@@ -4,14 +4,13 @@ import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ExtendedOrder } from "./mock-data";
-import { OrderStatus, PaymentMode } from "../pos/mock-data";
-import { ShoppingBag, CreditCard, Calendar, User, Phone, Check, RefreshCw } from "lucide-react";
+import { OrderStatus } from "../pos/mock-data";
+import { ShoppingBag, CreditCard, User, Phone, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -42,15 +41,27 @@ export function OrderModal({ order, isOpen, onClose, onUpdateStatus }: OrderModa
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
-      <DialogContent className="sm:max-w-2xl !p-0 !gap-0 rounded-[2rem] bg-white border border-gray-100 shadow-2xl overflow-hidden">
+      <DialogContent
+        showCloseButton={false}
+        className="sm:max-w-2xl !p-0 !gap-0 rounded-[2rem] bg-white border border-gray-100 shadow-2xl overflow-hidden"
+      >
         {/* Header banner */}
-        <div className="bg-gradient-to-br from-[#d44876] to-[#f6bc9c] px-8 py-6 text-white rounded-t-[2rem]">
-          <div className="flex justify-between items-start">
-            <div>
+        <div className="relative bg-gradient-to-br from-[#d44876] to-[#f6bc9c] px-8 py-6 text-white rounded-t-[2rem]">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-full text-white/90 transition-colors hover:bg-white/20 hover:text-white cursor-pointer"
+          >
+            <X className="size-4" />
+          </button>
+
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6 pr-10">
+            <div className="min-w-0 flex-1">
               <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full">
                 {order.order_type === "Walkin" ? "Walk-in Order" : "Online Order"}
               </span>
-              <DialogTitle className="text-white text-2xl font-bold mt-2">
+              <DialogTitle className="text-white text-2xl font-bold mt-2 break-all">
                 Order #{order.order_id}
               </DialogTitle>
               <DialogDescription className="text-white/85 text-xs mt-1">
@@ -64,9 +75,10 @@ export function OrderModal({ order, isOpen, onClose, onUpdateStatus }: OrderModa
                 })}
               </DialogDescription>
             </div>
-            <div className="text-right">
+
+            <div className="shrink-0 sm:text-right">
               <span className="text-xs text-white/80 block">Total Amount</span>
-              <span className="text-3xl font-extrabold">
+              <span className="text-3xl font-extrabold leading-tight">
                 ₱{order.order_total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </div>

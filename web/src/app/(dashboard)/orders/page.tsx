@@ -81,7 +81,7 @@ export default function OrdersPage() {
       {/* Page Header */}
       <PageHeader
         title="Orders"
-        subtitle="Manage, filter and track client transactions"
+        description="Manage, filter and track client transactions"
         icon={ClipboardList}
       />
 
