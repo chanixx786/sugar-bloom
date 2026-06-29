@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// Types
 
 interface Requirement {
   label: string;
@@ -16,7 +16,7 @@ interface PasswordStrengthProps {
   className?: string;
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// Helpers
 
 function calculateStrength(pass: string): number {
   let score = 0;
@@ -65,7 +65,7 @@ function getRequirements(password: string): Requirement[] {
   ];
 }
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// Component
 
 export function PasswordStrength({ password, className }: PasswordStrengthProps) {
   if (!password || password.length === 0) return null;
