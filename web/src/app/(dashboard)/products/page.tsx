@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import ProductModal from "./modal";
 import { SmartPagination } from "@/components/ui/pagination/smart-pagination";
 import { PageHeader } from "@/components/ui/page-header";
+import { toast } from "sonner";
 
 export default function ProductPage() {
   const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
@@ -30,8 +31,10 @@ export default function ProductPage() {
       setProducts((prev) =>
         prev.map((p) => (p.prod_id === updatedProduct.prod_id ? updatedProduct : p))
       );
+      toast.success(`"${updatedProduct.prodlist.prodlist_name}" updated successfully.`);
     } else {
       setProducts((prev) => [updatedProduct, ...prev]);
+      toast.success(`"${updatedProduct.prodlist.prodlist_name}" added to products.`);
     }
     setIsModalOpen(false);
   };
@@ -171,6 +174,7 @@ export default function ProductPage() {
                   onDelete={(prod) => {
                     if (confirm(`Are you sure you want to delete ${prod.prodlist.prodlist_name}?`)) {
                       setProducts((prev) => prev.filter((p) => p.prod_id !== prod.prod_id));
+                      toast.success(`"${prod.prodlist.prodlist_name}" removed from products.`);
                     }
                   }}
                 />

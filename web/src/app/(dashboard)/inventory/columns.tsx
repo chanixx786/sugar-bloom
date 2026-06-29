@@ -69,6 +69,70 @@ export function getInventoryColumns(
     },
 
     {
+      accessorKey: "expiry_date",
+      header: "Expiry Date",
+      cell: ({ row }) => {
+        const expiryDateStr = row.original.expiry_date;
+
+        if (!expiryDateStr) {
+          return <span className="text-muted-foreground/40 text-xs">—</span>;
+        }
+
+        // Parse as local date (avoids UTC-offset-shift bugs)
+        const [y, m, d] = expiryDateStr.split("-").map(Number);
+        const expiryDate = new Date(y, m - 1, d);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const diffDays = Math.ceil(
+          (expiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+        );
+
+        const formatted = expiryDate.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+
+        // Determine badge style and label
+        let dateColor = "text-foreground";
+        let badgeClass = "";
+        let badgeLabel = "";
+
+        if (diffDays < 0) {
+          dateColor = "text-red-600 font-semibold dark:text-red-400";
+          badgeClass =
+            "bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-400";
+          badgeLabel = "Expired";
+        } else if (diffDays <= 7) {
+          dateColor = "text-amber-600 font-semibold dark:text-amber-400";
+          badgeClass =
+            "bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-400";
+          badgeLabel = "Near Expiry";
+        } else if (diffDays <= 30) {
+          dateColor = "text-orange-500 font-medium dark:text-orange-400";
+          badgeClass =
+            "bg-orange-100 text-orange-700 dark:bg-orange-950/50 dark:text-orange-400";
+          badgeLabel = "Expiring Soon";
+        }
+
+        return (
+          <div className="flex flex-col gap-0.5">
+            <span className={`text-sm ${dateColor}`}>{formatted}</span>
+            {badgeLabel && (
+              <span
+                className={`inline-flex w-fit items-center rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide ${badgeClass}`}
+              >
+                {badgeLabel}
+              </span>
+            )}
+          </div>
+        );
+      },
+    },
+
+    {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {

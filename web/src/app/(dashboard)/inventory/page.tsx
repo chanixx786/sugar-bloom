@@ -11,7 +11,7 @@ import { InventoryStats } from "./inventory-stats";
 import { InventoryFilters } from "./inventory-filters";
 import { PageHeader } from "@/components/ui/page-header";
 import InventoryModal from "./modal";
-
+import { toast } from "sonner";
 // Page
 
 export default function InventoryPage() {
@@ -24,18 +24,22 @@ export default function InventoryPage() {
   const [currentItem, setCurrentItem] = useState<InventoryItem | null>(null);
 
   // Stats
-  const stats = useMemo(() => ({
-    total: inventory.length,
-    inStock: inventory.filter((i) => i.status === "In stock").length,
-    lowStock: inventory.filter((i) => i.status === "Low stock").length,
-    outOfStock: inventory.filter((i) => i.status === "Out of stock").length,
-  }), [inventory]);
+  const stats = useMemo(
+    () => ({
+      total: inventory.length,
+      inStock: inventory.filter((i) => i.status === "In stock").length,
+      lowStock: inventory.filter((i) => i.status === "Low stock").length,
+      outOfStock: inventory.filter((i) => i.status === "Out of stock").length
+    }),
+    [inventory]
+  );
 
   // Filtered data
   const filteredData = useMemo(() => {
     const q = search.toLowerCase().trim();
     return inventory.filter((item) => {
-      const matchesSearch = !q || item.item.toLowerCase().includes(q) || item.category.toLowerCase().includes(q);
+      const matchesSearch =
+        !q || item.item.toLowerCase().includes(q) || item.category.toLowerCase().includes(q);
       const matchesStatus = statusFilter === "all" || item.status === statusFilter;
       const matchesCategory = categoryFilter === "All" || item.category === categoryFilter;
       return matchesSearch && matchesStatus && matchesCategory;
@@ -47,10 +51,12 @@ export default function InventoryPage() {
     setCurrentItem(item);
     setIsModalOpen(true);
   };
-  
+
   const handleDelete = (item: InventoryItem) => {
-    if (confirm(`Delete "${item.item}" from inventory?`))
+    if (confirm(`Delete "${item.item}" from inventory?`)) {
       setInventory((prev) => prev.filter((i) => i.id !== item.id));
+      toast.success(`"${item.item}" removed from inventory.`);
+    }
   };
 
   const handleSave = (savedItem: InventoryItem) => {
@@ -62,13 +68,16 @@ export default function InventoryPage() {
       return [savedItem, ...prev];
     });
     setIsModalOpen(false);
+    toast.success(
+      savedItem.id && inventory.some((i) => i.id === savedItem.id)
+        ? `"${savedItem.item}" updated successfully.`
+        : `"${savedItem.item}" added to inventory.`
+    );
   };
-
   const columns = getInventoryColumns(handleEdit, handleDelete);
 
   return (
     <div className="flex flex-col gap-6 w-full animate-fade-in duration-300">
-
       {/* Page Header */}
       <PageHeader
         title="Inventory Management"
@@ -88,7 +97,7 @@ export default function InventoryPage() {
         lowStock={stats.lowStock}
         outOfStock={stats.outOfStock}
       />
-      
+
       {/* Data Table */}
       <Card>
         <CardContent className="flex flex-col gap-8">
@@ -118,7 +127,6 @@ export default function InventoryPage() {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSave}
       />
-
     </div>
   );
 }

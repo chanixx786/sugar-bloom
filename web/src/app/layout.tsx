@@ -1,5 +1,6 @@
 import { Geist_Mono, Poppins, Dancing_Script } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 // Configure fonts
 const poppins = Poppins({
@@ -28,6 +29,14 @@ export default function RootLayout({
     <html lang="en" className={`${poppins.variable} ${geistMono.variable} ${dancingScript.variable}`}>
       <body className="antialiased">
         {children}
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            style: {
+              fontFamily: "var(--font-poppins), system-ui, sans-serif",
+            },
+          }}
+        />
       </body>
     </html>
   );

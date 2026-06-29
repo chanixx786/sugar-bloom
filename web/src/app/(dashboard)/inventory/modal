@@ -1,2 +1,0 @@
-export { default } from "./modal.tsx";
-export * from "./modal.tsx";
