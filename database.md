@@ -66,12 +66,15 @@ prod_status (Available, Sold, Discarded, Reserved )
 updated_at
 
 
+INVENTORY_ITEM
+inv_item_id
+inv_item_name
 
 INVENTORY
 inv_id (FK)
 cat_id (FK)
 acc_id (FK)
-inv_name
+inv_item_id(FK)
 inv_thresold
 inv_qty
 inv_status (low stock, out of stock in stock)

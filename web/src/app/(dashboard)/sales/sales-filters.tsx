@@ -13,9 +13,8 @@ interface SalesFiltersProps {
 
 const PERIODS: { label: string; value: SalesPeriod }[] = [
   { label: "Last 7 Days", value: "7d" },
-  { label: "Last 30 Days", value: "30d" },
-  { label: "This Month", value: "month" },
-  { label: "All Time", value: "all" },
+  { label: "This Month",  value: "month" },
+  { label: "All Time",    value: "all" },
 ];
 
 const TYPES: SalesTypeFilter[] = ["All", "Walkin", "Online"];
@@ -26,7 +25,7 @@ export function SalesFilters({
   typeFilter,
   onTypeFilterChange,
 }: SalesFiltersProps) {
-  const isFiltering = period !== "30d" || typeFilter !== "All";
+  const isFiltering = period !== "month" || typeFilter !== "All";
 
   return (
     <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
@@ -71,7 +70,7 @@ export function SalesFilters({
           <button
             type="button"
             onClick={() => {
-              onPeriodChange("30d");
+              onPeriodChange("month");
               onTypeFilterChange("All");
             }}
             className="text-xs text-[#d44876] hover:underline font-semibold flex items-center gap-1 cursor-pointer"

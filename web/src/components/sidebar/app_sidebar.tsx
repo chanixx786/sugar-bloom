@@ -42,7 +42,7 @@ const navItems = [
   { label: "Reports",   href: "/reports",   icon: FileText },
   { label: "Sales",     href: "/sales",     icon: TrendingUp },
   { label: "Expenses",  href: "/expenses",  icon: Wallet },
-  { label: "Budget",    href: "/budget",    icon: PiggyBank },
+  // { label: "Budget",    href: "/budget",    icon: PiggyBank },
 ];
 
 // Nav Item

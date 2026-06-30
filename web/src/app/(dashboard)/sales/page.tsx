@@ -26,7 +26,7 @@ import {
 } from "./sales-utils";
 
 export default function SalesPage() {
-  const [period, setPeriod] = useState<SalesPeriod>("30d");
+  const [period, setPeriod] = useState<SalesPeriod>("month");
   const [typeFilter, setTypeFilter] = useState<SalesTypeFilter>("All");
 
   const filteredOrders = useMemo(
