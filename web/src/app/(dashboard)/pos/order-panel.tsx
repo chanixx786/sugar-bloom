@@ -7,6 +7,7 @@ import {
   Wallet,
   Users,
   Bike,
+  User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,8 @@ interface OrderPanelProps {
   itemCount: number;
   orderType: OrderType;
   onOrderTypeChange: (type: OrderType) => void;
+  customerName?: string;
+  onChangeCustomer: () => void;
   paymentMode: PaymentMode;
   onPaymentModeChange: (mode: PaymentMode) => void;
   amountTendered: string;
@@ -44,6 +47,8 @@ export function OrderPanel({
   itemCount,
   orderType,
   onOrderTypeChange,
+  customerName,
+  onChangeCustomer,
   paymentMode,
   onPaymentModeChange,
   amountTendered,
@@ -60,6 +65,7 @@ export function OrderPanel({
 }: OrderPanelProps) {
   const tendered = parseFloat(amountTendered) || 0;
   const canPlaceOrder =
+    !!customerName &&
     cart.length > 0 &&
     !isProcessing &&
     (paymentMode !== "Cash" || tendered >= orderTotal);
@@ -107,6 +113,39 @@ export function OrderPanel({
                 {type}
               </button>
             ))}
+          </div>
+        </div>
+
+        <div className="px-5 py-3 border-b border-border/60 shrink-0">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              Customer
+            </p>
+            <button
+              type="button"
+              onClick={onChangeCustomer}
+              className="text-[10px] font-semibold text-[#d44876] hover:underline cursor-pointer"
+            >
+              {customerName ? "Change" : "Set customer"}
+            </button>
+          </div>
+          <div
+            className={cn(
+              "flex items-center gap-2 rounded-xl border px-3 py-2",
+              customerName
+                ? "border-[#d44876]/20 bg-pink-50/40"
+                : "border-dashed border-border bg-gray-50/50"
+            )}
+          >
+            <User className="size-3.5 shrink-0 text-[#d44876]" />
+            <span
+              className={cn(
+                "text-xs font-semibold truncate",
+                customerName ? "text-foreground" : "text-muted-foreground"
+              )}
+            >
+              {customerName || "No customer selected"}
+            </span>
           </div>
         </div>
 

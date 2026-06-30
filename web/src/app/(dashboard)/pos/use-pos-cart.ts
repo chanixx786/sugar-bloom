@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Product } from "../products/mock-data";
+import { OrderCustomer } from "./customer-modal";
 import {
   CartItem,
   Order,
@@ -21,6 +22,8 @@ export function usePosCart(products: Product[]) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [lastOrder, setLastOrder] = useState<Order | null>(null);
   const [lastChange, setLastChange] = useState(0);
+  const [customer, setCustomer] = useState<OrderCustomer | null>(null);
+  const [customerModalOpen, setCustomerModalOpen] = useState(false);
 
   const filteredProducts = useMemo(() => {
     const q = search.toLowerCase().trim();
@@ -62,6 +65,16 @@ export function usePosCart(products: Product[]) {
   const clearCart = () => {
     setCart([]);
     setAmountTendered("");
+  };
+
+  const handleOrderTypeChange = (type: OrderType) => {
+    setOrderType(type);
+    setCustomer(null);
+  };
+
+  const handleConfirmCustomer = (nextCustomer: OrderCustomer) => {
+    setCustomer(nextCustomer);
+    setCustomerModalOpen(false);
   };
 
   const handleAddToCart = (product: Product) => {
@@ -106,6 +119,10 @@ export function usePosCart(products: Product[]) {
     setCart((prev) => prev.filter((i) => i.product.prod_id !== prodId));
 
   const handlePlaceOrder = () => {
+    if (!customer) {
+      toast.error("Please identify the customer before placing an order.");
+      return;
+    }
     if (cart.length === 0) {
       toast.error("Cart is empty. Add items before placing an order.");
       return;
@@ -127,11 +144,15 @@ export function usePosCart(products: Product[]) {
         order_total: orderTotal,
         order_amount: parseFloat(amountTendered) || orderTotal,
         created_at: new Date().toISOString(),
+        cus_id: customer.cus_id,
+        customer_name: customer.customer_name,
+        customer_phone: customer.customer_phone,
       };
 
       setLastChange(change);
       setLastOrder(order);
       clearCart();
+      setCustomer(null);
       setIsProcessing(false);
     }, 600);
   };
@@ -144,7 +165,11 @@ export function usePosCart(products: Product[]) {
     filteredProducts,
     cart,
     orderType,
-    setOrderType,
+    customer,
+    customerModalOpen,
+    setCustomerModalOpen,
+    handleOrderTypeChange,
+    handleConfirmCustomer,
     paymentMode,
     setPaymentMode,
     amountTendered,

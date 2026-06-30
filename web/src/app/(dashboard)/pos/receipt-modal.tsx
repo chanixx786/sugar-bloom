@@ -57,6 +57,18 @@ export function ReceiptModal({ order, change, onClose }: ReceiptModalProps) {
 
         <div className="border-t border-border mx-6" />
         <div className="px-6 py-3 flex flex-col gap-1.5">
+          {order.customer_name && (
+            <div className="flex justify-between text-xs">
+              <span className="text-muted-foreground">Customer</span>
+              <span className="font-semibold text-foreground">{order.customer_name}</span>
+            </div>
+          )}
+          {order.cus_id && (
+            <div className="flex justify-between text-xs">
+              <span className="text-muted-foreground">Customer ID</span>
+              <span className="font-semibold text-[#d44876]">#{order.cus_id}</span>
+            </div>
+          )}
           <div className="flex justify-between text-sm font-extrabold text-[oklch(0.3828_0.106_350.28)]">
             <span>Total</span>
             <span className="text-[#d44876]">₱{fmt(order.order_total)}</span>

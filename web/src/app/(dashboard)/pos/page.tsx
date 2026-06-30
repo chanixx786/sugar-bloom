@@ -4,6 +4,7 @@ import { useState } from "react";
 import { INITIAL_PRODUCTS } from "./mock-data";
 import { usePosCart } from "./use-pos-cart";
 import { ReceiptModal } from "./receipt-modal";
+import { CustomerModal } from "./customer-modal";
 import { ProductCatalog } from "./product-catalog";
 import { OrderPanel } from "./order-panel";
 
@@ -13,6 +14,13 @@ export default function POSPage() {
 
   return (
     <>
+      <CustomerModal
+        open={pos.customerModalOpen}
+        orderType={pos.orderType}
+        onClose={() => pos.setCustomerModalOpen(false)}
+        onConfirm={pos.handleConfirmCustomer}
+      />
+
       <ReceiptModal
         order={pos.lastOrder}
         change={pos.lastChange}
@@ -37,7 +45,9 @@ export default function POSPage() {
             cart={pos.cart}
             itemCount={pos.itemCount}
             orderType={pos.orderType}
-            onOrderTypeChange={pos.setOrderType}
+            onOrderTypeChange={pos.handleOrderTypeChange}
+            customerName={pos.customer?.customer_name}
+            onChangeCustomer={() => pos.setCustomerModalOpen(true)}
             paymentMode={pos.paymentMode}
             onPaymentModeChange={pos.setPaymentMode}
             amountTendered={pos.amountTendered}

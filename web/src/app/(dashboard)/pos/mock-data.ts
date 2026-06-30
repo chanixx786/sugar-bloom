@@ -25,6 +25,9 @@ export interface Order {
   order_total: number;   // gross (before discount)
   order_amount: number;  // amount tendered (cash) or 0 for e-wallet
   created_at: string;
+  cus_id?: number;
+  customer_name?: string;
+  customer_phone?: string;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────
