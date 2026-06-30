@@ -14,6 +14,7 @@ import {
   PiggyBank,
   Settings,
   LogOut,
+  ScanLine,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -34,13 +35,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Products", href: "/products", icon: ShoppingCart },
+  { label: "POS",       href: "/pos",       icon: ScanLine },
+  { label: "Products",  href: "/products",  icon: ShoppingCart },
   { label: "Inventory", href: "/inventory", icon: Package },
-  { label: "Orders", href: "/orders", icon: ClipboardList },
-  { label: "Reports", href: "/reports", icon: FileText },
-  { label: "Sales", href: "/sales", icon: TrendingUp },
-  { label: "Expenses", href: "/expenses", icon: Wallet },
-  { label: "Budget", href: "/budget", icon: PiggyBank },
+  { label: "Orders",    href: "/orders",    icon: ClipboardList },
+  { label: "Reports",   href: "/reports",   icon: FileText },
+  { label: "Sales",     href: "/sales",     icon: TrendingUp },
+  { label: "Expenses",  href: "/expenses",  icon: Wallet },
+  { label: "Budget",    href: "/budget",    icon: PiggyBank },
 ];
 
 // Nav Item
