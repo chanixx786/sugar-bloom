@@ -8,9 +8,10 @@ async function main() {
     update: {},
     create: {
       acc_email: 'admin@sugarbloom.com',
-      acc_phone: '09171234567',
-      acc_fname: 'Admin',
-      acc_lname: 'User',
+      acc_password: 'admin123',
+      acc_phone: '09171234567', 
+      acc_fname: 'Chris',
+      acc_lname: 'Chan',
       acc_type: 'admin',
     },
   })
@@ -20,6 +21,7 @@ async function main() {
     update: {},
     create: {
       acc_email: 'staff@sugarbloom.com',
+      acc_password: 'staff123',
       acc_phone: '09189876543',
       acc_fname: 'Jane',
       acc_lname: 'Doe',
@@ -32,6 +34,7 @@ async function main() {
     update: {},
     create: {
       acc_email: 'customer@example.com',
+      acc_password: 'customer123',
       acc_phone: '09201112233',
       acc_fname: 'Maria',
       acc_lname: 'Santos',

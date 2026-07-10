@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form/form-field";
 import { loginSchema, LoginInput } from "@/schemas/auth_schema";
 import { useRouter } from "next/navigation";
+
 export default function LoginPage() {
   const router = useRouter();
   const {
@@ -22,7 +23,25 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginInput) => {
     console.log("Login data:", data);
-    router.push("/dashboard");
+    try {
+      const response = await fetch("api/auth/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to login");
+      }
+
+      router.push("/dashboard");
+      
+    } catch(error) {
+      console.error("Login error:", error);
+    }
 
   };
 
